@@ -24,7 +24,7 @@ const MobileNav = ({ handleClick, active, expand }) => {
     <motion.div
       animate={!expand ? "closed" : "open"}
       variants={menu}
-      className={`border flex-col p-4 mt-4 rounded-lg`}
+      className={`border flex-col p-4 mt-4 rounded-lg hidden`}
     >
       <div className="flex justify-center flex-col">
         <Link href="/">
