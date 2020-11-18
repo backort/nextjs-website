@@ -1,0 +1,36 @@
+.registerBtn {
+  background-color: #0070f3;
+  color: white;
+  margin: 0;
+  padding: 0 1rem;
+  height: 2.81rem;
+  line-height: 2.8rem;
+  border-radius: 7px;
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #0070f3;
+  font-weight: 600;
+  transition: all 0.5s ease-in-out;
+}
+
+.registerBtn:hover {
+  background-color: #fff;
+  color: #0070f3;
+}
+
+@media only screen and (max-width: 425px) {
+  .header {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  .nav {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .navLgScreen {
+    display: none;
+  }
+}
