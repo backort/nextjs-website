@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { useState } from "react";
-import FilterGrades from "../components/FilterGrades";
-import { motion, AnimatePresence } from "framer-motion";
+import FilterGrades from "../../components/FilterGrades";
 
 const lessons = () => {
   const [grades, setGrades] = useState([
@@ -46,24 +45,28 @@ const lessons = () => {
           <h1 className="font-bold">Уроци за:</h1>
           <FilterGrades grades={grades} setGrades={setGrades} />
         </div>
-        <div className="gradesContainer flex flex-wrap">
+        <div className="flex flex-wrap">
           {grades.map((grade) => (
-            <div
+            <Link
+              href={`/lessons/${grade.subject + "-" + grade.grade}`}
               key={grade.id}
-              className="p-1 xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3"
             >
-              <div className="flex justify-between flex-col h-full px-6 pt-4 rounded overflow-hidden border cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg group">
-                <div className="font-bold text-xl mb-2">{grade.grade}</div>
-                <p className="text-gray-700 text-base">{grade.subject}</p>
-                <div className="px-6 py-4">
-                  <Link href="/">
-                    <a className="text-blue-500 group-hover:underline hover:text-blue-300">
-                      Уроци →
-                    </a>
-                  </Link>
+              <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
+                <div className="w-full px-6 pt-4 flex flex-col justify-between rounded overflow-hidden border cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg group">
+                  <div className="font-bold text-xl mb-2">{grade.grade}</div>
+                  <p className="text-gray-700 text-base">{grade.subject}</p>
+                  <div className="px-6 py-4">
+                    <Link
+                      href={`/lessons/${grade.subject + "-" + grade.grade}`}
+                    >
+                      <a className="text-blue-500 group-hover:underline hover:text-blue-300">
+                        Уроци →
+                      </a>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

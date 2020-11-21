@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../../styles/Nav.module.css";
 import MobileNav from "./MobileNav";
+import { useRouter } from "next/router";
 
 const Nav = () => {
-  const [active, setActive] = useState("home");
+  const router = useRouter();
   const [expand, setExpand] = useState(false);
-  const handleClick = (e) => {
-    setActive(e.target.name);
-  };
+  const [width, setWidth] = useState("");
+  useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+    if (width >= 768) setExpand(false);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, [width]);
+
   return (
     <header
       className={`${styles.header} w-full pt-6 flex flex-col sm:px-3 xl:items-center lg:items-center md:items-center`}
@@ -33,21 +39,21 @@ const Nav = () => {
             <Link href="/">
               <a
                 className={`hover:text-gray-900 ${
-                  active === "home" ? "text-gray-900" : "text-gray-500"
+                  router.pathname === "/" ? "text-gray-900" : "text-gray-500"
                 }`}
-                onClick={handleClick}
-                name="home"
               >
                 Начало
               </a>
             </Link>
-            <Link href="lessons">
+            <Link href="/lessons">
               <a
                 className={`ml-4 hover:text-gray-900 ${
-                  active === "lessons" ? "text-gray-900" : "text-gray-500"
+                  router.pathname === "/lessons" ||
+                  router.route === "/lessons/[id]" ||
+                  router.route === "/grade/[grade]"
+                    ? "text-gray-900"
+                    : "text-gray-500"
                 }`}
-                onClick={handleClick}
-                name="lessons"
               >
                 Уроци
               </a>
@@ -94,7 +100,7 @@ const Nav = () => {
           </svg>
         </button>
       </nav>
-      <MobileNav handleClick={handleClick} active={active} expand={expand} />
+      <MobileNav expand={expand} />
     </header>
   );
 };

@@ -20,12 +20,12 @@ const index = () => {
         </h3>
         <div className={styles.buttons}>
           <div className={styles.button}>
-            <Link href="/">
+            <Link href="/grade/11 клас">
               <a className={styles.eleven}>Уроци за 11 клас</a>
             </Link>
           </div>
           <div className={styles.button}>
-            <Link href="/">
+            <Link href="/grade/12 клас">
               <a className={styles.twelve}>Уроци за 12 клас</a>
             </Link>
           </div>

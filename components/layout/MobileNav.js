@@ -1,9 +1,11 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import styles from "../../styles/Nav.module.css";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
-const MobileNav = ({ handleClick, active, expand }) => {
+const MobileNav = ({ expand }) => {
+  const router = useRouter();
   const menu = {
     open: {
       display: "flex",
@@ -30,25 +32,23 @@ const MobileNav = ({ handleClick, active, expand }) => {
         <Link href="/">
           <a
             className={`${
-              active === "home"
+              router.pathname === "/"
                 ? "text-gray-900 border-l-4 border-blue-500 bg-blue-100 p-1"
                 : "text-gray-500"
             } py-1`}
-            onClick={handleClick}
-            name="home"
           >
             Начало
           </a>
         </Link>
-        <Link href="lessons">
+        <Link href="/lessons">
           <a
             className={`${
-              active === "lessons"
+              router.pathname === "/lessons" ||
+              router.route === "/lessons/[id]" ||
+              router.route === "/grade/[grade]"
                 ? "text-gray-900 border-l-4 border-blue-500 bg-blue-100 p-1"
                 : "text-gray-500"
             } py-1`}
-            onClick={handleClick}
-            name="lessons"
           >
             Уроци
           </a>
