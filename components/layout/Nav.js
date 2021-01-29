@@ -64,7 +64,7 @@ const Nav = () => {
               <button className={styles.registerBtn}>Регистрация</button>
             </div>
             <div>
-              <button className="bg-white hover:border-gray-700 text-gray-700 border rounded-lg py-2 px-5 transition duration-500 ease-in-out">
+              <button className={`${styles.loginBtn} bg-white hover:border-gray-700 text-gray-700 border rounded-lg py-2 px-5 transition duration-500 ease-in-out`}>
                 Влез
               </button>
             </div>

@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import Link from "next/link";
 
-const index = () => {
+export default function index() {
   return (
     <>
       <Head>
@@ -14,10 +14,10 @@ const index = () => {
         <h1 className={styles.title}>
           Уроци по <span>Информатика</span>
         </h1>
-        <h3 className={styles.description}>
+        <h2 className={styles.description}>
           Презентации и видео уроци по информатика, информационни технологии,
           икономическа информатика и уеб дизайн.
-        </h3>
+        </h2>
         <div className={styles.buttons}>
           <div className={styles.button}>
             <Link href="/grade/11 клас">
@@ -33,6 +33,4 @@ const index = () => {
       </div>
     </>
   );
-};
-
-export default index;
+}

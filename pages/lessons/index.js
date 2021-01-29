@@ -1,39 +1,31 @@
 import Head from "next/head";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FilterGrades from "../../components/FilterGrades";
 
-const lessons = () => {
-  const [grades, setGrades] = useState([
-    {
-      id: 1,
-      grade: "11 клас",
-      subject: "Икономическа информатика - Разширена професионална подготовка",
-    },
-    {
-      id: 2,
-      grade: "11 клас",
-      subject: "Уеб дизайн - Специфична професионална подготовка",
-    },
-    {
-      id: 3,
-      grade: "11 клас",
-      subject:
-        "Уеб дизайн - учебна практика - Специфична професионална подготовка",
-    },
-    {
-      id: 4,
-      grade: "12 клас",
-      subject:
-        "Икономическа информатика - Задължителна професионална подготовка",
-    },
-    {
-      id: 5,
-      grade: "12 клас",
-      subject:
-        "Икономическа информатика - Задължителноизбираема професионална подготовка",
-    },
-  ]);
+const lessons = (props) => {
+  const [grade, setGrade] = useState("");
+  const [subject, setSubject] = useState("");
+  const [grades, setGrades] = useState(props.grades.data);
+  const [error, setError] = useState("");
+  const addGrade = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:3000/api/grades", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ grade, subject }),
+      });
+      setGrade("");
+      setSubject("");
+      setError("");
+    } catch (error) {
+      setError(error);
+    }
+  };
   return (
     <>
       <Head>
@@ -47,18 +39,13 @@ const lessons = () => {
         </div>
         <div className="flex flex-wrap">
           {grades.map((grade) => (
-            <Link
-              href={`/lessons/${grade.subject + "-" + grade.grade}`}
-              key={grade.id}
-            >
+            <Link href={`/lessons/${grade._id}`} key={grade._id}>
               <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
-                <div className="w-full px-6 pt-4 flex flex-col justify-between rounded overflow-hidden border cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg group">
+                <div className="w-full p-6 pt-4 flex flex-col justify-between rounded overflow-hidden border cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg group">
                   <div className="font-bold text-xl mb-2">{grade.grade}</div>
                   <p className="text-gray-700 text-base">{grade.subject}</p>
-                  <div className="px-6 py-4">
-                    <Link
-                      href={`/lessons/${grade.subject + "-" + grade.grade}`}
-                    >
+                  <div className="px-6 pt-4">
+                    <Link href={`/lessons/${grade._id}`}>
                       <a className="text-blue-500 group-hover:underline hover:text-blue-300">
                         Уроци →
                       </a>
@@ -68,6 +55,44 @@ const lessons = () => {
               </div>
             </Link>
           ))}
+          <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
+            <div className="border w-full rounded cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg p-6 pt-4">
+              <form onSubmit={addGrade} className="h-full">
+                <div className="mt-1 flex">
+                  <input
+                    type="text"
+                    className="w-full border-black border rounded p-1 font-bold text-lg"
+                    placeholder="Клас..."
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
+                  />
+                </div>
+                <div className="mt-1 flex">
+                  <input
+                    type="text"
+                    className="w-full border-black border rounded p-1 text-gray-700 text-base"
+                    placeholder="Предмет..."
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                  />
+                </div>
+                <div className="px-6 mt-10">
+                  <button
+                    disabled={!subject || !grade}
+                    className={
+                      !subject || !grade
+                        ? "text-gray-500"
+                        : "text-green-500 hover:text-green-300"
+                    }
+                    type="submit"
+                  >
+                    Добави +
+                  </button>
+                </div>
+                {error && <p className="text-red-600">{error}</p>}
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -75,3 +100,14 @@ const lessons = () => {
 };
 
 export default lessons;
+
+export const getStaticProps = async () => {
+  const res = await fetch("http://localhost:3000/api/grades");
+  const grades = await res.json();
+
+  return {
+    props: {
+      grades,
+    },
+  };
+};
