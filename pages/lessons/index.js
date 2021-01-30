@@ -3,11 +3,21 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import FilterGrades from "../../components/FilterGrades";
 
-const lessons = (props) => {
+const lessons = () => {
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
-  const [grades, setGrades] = useState(props.grades.data);
+  const [grades, setGrades] = useState([]);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchData = await fetch("http://localhost:3000/api/grades");
+      const grades = await fetchData.json();
+      setGrades(grades.data);
+    };
+    fetchData();
+  }, [grades]);
+  console.log(grades);
   const addGrade = async (e) => {
     e.preventDefault();
     try {
@@ -18,10 +28,12 @@ const lessons = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ grade, subject }),
+      }).then(() => {
+        setGrades([...grades, { grade, subject }]);
+        setGrade("");
+        setSubject("");
+        setError("");
       });
-      setGrade("");
-      setSubject("");
-      setError("");
     } catch (error) {
       setError(error);
     }
@@ -100,14 +112,3 @@ const lessons = (props) => {
 };
 
 export default lessons;
-
-export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:3000/api/grades");
-  const grades = await res.json();
-
-  return {
-    props: {
-      grades,
-    },
-  };
-};
