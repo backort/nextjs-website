@@ -9,7 +9,7 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        const lessons = await Lesson.find({});
+        const lessons = await Lesson.find({}).sort("level");
         res.status(200).json({ success: true, data: lessons });
       } catch (error) {
         res.status(400).json({ success: false });

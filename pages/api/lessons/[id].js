@@ -4,7 +4,6 @@ export default async (req, res) => {
   const {
     query: { id },
     method,
-    body,
   } = req;
 
   switch (method) {

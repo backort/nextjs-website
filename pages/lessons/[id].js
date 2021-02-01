@@ -1,44 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import Head from "next/head";
 import styles from "../../styles/Lessons.module.css";
 import ReactPlayer from "react-player";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const lesson = () => {
-  const lessons = [
-    {
-      grade:
-        "Икономическа информатика - Задължителноизбираема професионална подготовка-12 клас",
-      subjects: [
-        {
-          title:
-            "Език за маркиране на хипертекст HTML - основни елементи и структура на документа",
-          presentation:
-            "https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx",
-          video:
-            "https://www.youtube.com/watch?v=UB1O30fR-EE&t=3020s&ab_channel=TraversyMedia",
-        },
-        {
-          title: "Заглавия, параграфи и шрифтове в HTML",
-          presentation:
-            "https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx",
-          video: "",
-        },
-      ],
-    },
-    {
-      grade:
-        "Уеб дизайн - учебна практика - Специфична професионална подготовка-11 клас",
-      subjects: [
-        {
-          title: "История на глобалната мрежа.",
-          presentation:
-            "https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx",
-          video: "https://www.youtube.com/watch?v=k0gvAyCubGQ&ab_channel=CERN",
-        },
-      ],
-    },
-  ];
+  const [lessons, setLessons] = useState([]);
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/lessons/${id}`).then((res) => {
+      if (res.status === 200) setLessons(res.data.data);
+    });
+  }, [id]);
+
   return (
     <>
       <Head>
@@ -56,26 +34,31 @@ const lesson = () => {
                 <b>Презентации</b>
               </summary>
               <ul>
-                {lessons.map((subject) => (
-                  <li key={subject.title}>
-                    <a className={styles.linkColor} href={subject.presentation}>
-                      {subject.title}
-                    </a>
-                  </li>
-                ))}
+                {lessons &&
+                  lessons?.map((subject) => (
+                    <li key={subject.title}>
+                      <a
+                        className={styles.linkColor}
+                        href={subject.presentation}
+                      >
+                        {subject.title}
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </details>
             <details>
               <summary>Видео уроци</summary>
               <ul>
-                {lessons.map(
-                  (subject) =>
-                    subject.video !== "" && (
-                      <li key={subject.title}>
-                        <ReactPlayer controls url={subject.video} />
-                      </li>
-                    )
-                )}
+                {lessons &&
+                  lessons?.map(
+                    (subject) =>
+                      subject.video !== "" && (
+                        <li key={subject.title}>
+                          <ReactPlayer controls url={subject.video} />
+                        </li>
+                      )
+                  )}
               </ul>
             </details>
           </div>

@@ -8,10 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "framer-motion": "^2.9.4",
     "mongoose": "^5.11.14",
     "next": "10.0.1",
     "react": "17.0.1",
+    "react-confirm-alert": "^2.7.0",
     "react-dom": "17.0.1",
     "react-player": "^2.8.1"
   },
