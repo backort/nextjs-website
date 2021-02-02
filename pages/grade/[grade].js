@@ -51,7 +51,7 @@ const Grade = ({ data }) => {
 export default Grade;
 
 export const getServerSideProps = async (context) => {
-  const res = await fetch(`http://localhost:3000/api/grades`);
+  const res = await fetch(`/api/grades`);
   const grades = await res.json();
 
   return {

@@ -10,7 +10,7 @@ const lesson = ({ id }) => {
 
   useEffect(() => {
     if (id)
-      axios.get(`http://localhost:3000/api/lessons/${id}`).then((res) => {
+      axios.get(`/api/lessons/${id}`).then((res) => {
         if (res.status === 200) setLessons(res.data.data);
       });
   }, []);

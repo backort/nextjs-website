@@ -25,7 +25,7 @@ const lessons = () => {
           label: "Да",
           onClick: () => {
             axios
-              .delete(`http://localhost:3000/api/lessons/${e.target.id}`)
+              .delete(`/api/lessons/${e.target.id}`)
               .then((res) => {
                 if (res.status === 200) {
                   const deletedGrades = grades.filter(
