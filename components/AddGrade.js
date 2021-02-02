@@ -9,7 +9,7 @@ const AddGrade = ({ setGrades, grades }) => {
   const addGrade = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/api/lessons", {
+      .post("/api/lessons", {
         level,
         grade,
       })
