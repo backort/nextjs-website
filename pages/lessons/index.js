@@ -56,7 +56,7 @@ const lessons = () => {
         </div>
         <div className="flex flex-wrap">
           {grades &&
-            grades?.map((grade) => (
+            grades.map((grade) => (
               <Grade key={grade._id} grade={grade} deleteItem={deleteItem} />
             ))}
           <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
