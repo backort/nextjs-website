@@ -10,7 +10,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 const lessons = () => {
   const [grades, setGrades] = useState([]);
   useEffect(() => {
-    axios.get("https://localhost:3000/api/lessons").then((res) => {
+    axios.get("/api/lessons").then((res) => {
       if (res.status === 200) {
         setGrades(res.data.data);
       }
