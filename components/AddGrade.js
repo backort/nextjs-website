@@ -5,6 +5,7 @@ const AddGrade = ({ setGrades, grades }) => {
   const [level, setLevel] = useState("");
   const [grade, setGrade] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const addGrade = async (e) => {
     e.preventDefault();

@@ -6,6 +6,7 @@ import Grade from "../../components/Grade";
 import AddGrade from "../../components/AddGrade";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import GradesLoading from "../../components/GradesLoading";
 
 const lessons = () => {
   const [grades, setGrades] = useState([]);
@@ -24,16 +25,14 @@ const lessons = () => {
         {
           label: "Да",
           onClick: () => {
-            axios
-              .delete(`/api/lessons/${e.target.id}`)
-              .then((res) => {
-                if (res.status === 200) {
-                  const deletedGrades = grades.filter(
-                    (grade) => grade._id !== e.target.id
-                  );
-                  setGrades(deletedGrades);
-                }
-              });
+            axios.delete(`/api/lessons/${e.target.id}`).then((res) => {
+              if (res.status === 200) {
+                const deletedGrades = grades.filter(
+                  (grade) => grade._id !== e.target.id
+                );
+                setGrades(deletedGrades);
+              }
+            });
           },
         },
         {
@@ -54,17 +53,21 @@ const lessons = () => {
           <h1 className="font-bold">Уроци за:</h1>
           {grades && <FilterGrades grades={grades} setGrades={setGrades} />}
         </div>
-        <div className="flex flex-wrap">
-          {grades &&
-            grades.map((grade) => (
-              <Grade key={grade._id} grade={grade} deleteItem={deleteItem} />
-            ))}
-          <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
-            <div className="border w-full rounded cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg p-6 pt-4">
-              <AddGrade grades={grades} setGrades={setGrades} />
+        {grades.length === 0 ? (
+          <GradesLoading />
+        ) : (
+          <div className="flex flex-wrap">
+            {grades &&
+              grades.map((grade) => (
+                <Grade key={grade._id} grade={grade} deleteItem={deleteItem} />
+              ))}
+            <div className="xsm:w-full sm:w-full md:w-full lg:w-1/3 xl:w-1/3 flex px-1 py-1">
+              <div className="border w-full rounded cursor-pointer transition-shadow duration-300 ease-in-out hover:shadow-lg p-6 pt-4">
+                <AddGrade grades={grades} setGrades={setGrades} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
